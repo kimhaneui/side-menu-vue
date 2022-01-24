@@ -27,20 +27,29 @@ export default {
   },
   methods: {
 getData(){
-  axios.get('http://recruit.web.smartjackwp.co.kr/menu').then(res=>{
-    this.menu = res.data.menuList;
-  });
+  const Http = new XMLHttpRequest();
+  const url='http://recruit.web.smartjackwp.co.kr/menu';
+  Http.open("GET", url);
+  Http.send();
+
+  Http.onreadystatechange = (e) => {
+    console.log('http',Http.responseText)
+    this.menu = JSON.parse(Http.responseText).menuList;
+  }
 },
 onDetail(menuId){
-  const url = 'http://recruit.web.smartjackwp.co.kr/menu/'+ menuId
-  console.log(url,'url');
-  axios.get(url).then(res=>{
-    console.log(res,'res');
-    this.content = res.data.content
-    this.id = res.data.id
-    this.title = res.data.title
+  const Http = new XMLHttpRequest();
+  const url='http://recruit.web.smartjackwp.co.kr/menu/'+ menuId;
+  Http.open("GET", url);
+  Http.send();
 
-  });
+  Http.onreadystatechange = (e) => {
+    console.log('http',Http.responseText)
+    const data = JSON.parse(Http.responseText);
+    this.content = data.content
+    this.id = data.id
+    this.title = data.title
+  }
 }
   },
   created() {
